@@ -4,6 +4,8 @@
 
 import 'dart:io';
 
+import 'package:digital_clock/services/service_locator.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_clock_helper/customizer.dart';
 import 'package:flutter_clock_helper/model.dart';
 import 'package:flutter/foundation.dart';
@@ -11,7 +13,8 @@ import 'package:flutter/material.dart';
 
 import 'digital_clock.dart';
 
-void main() {
+
+void main() async {
   // A temporary measure until Platform supports web and TargetPlatform supports
   // macOS.
   if (!kIsWeb && Platform.isMacOS) {
@@ -20,6 +23,9 @@ void main() {
     // See https://github.com/flutter/flutter/wiki/Desktop-shells#target-platform-override.
     debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
   }
+
+
+  setUpServiceLocator(rootBundle);
 
   // This creates a clock that enables you to customize it.
   //
@@ -31,4 +37,5 @@ void main() {
   // Your job is to edit [DigitalClock], or replace it with your
   // own clock widget. (Look in digital_clock.dart for more details!)
   runApp(ClockCustomizer((ClockModel model) => DigitalClock(model)));
+
 }

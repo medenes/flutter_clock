@@ -4,9 +4,17 @@
 
 import 'dart:async';
 
+import 'package:digital_clock/widgets/common/error_view.dart';
+import 'package:digital_clock/widgets/common/loading_view.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_clock_helper/model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:digital_clock/data/loading_status.dart';
+import 'package:digital_clock/services/service_locator.dart';
+import 'package:digital_clock/widgets/common/progress_indicator.dart';
+
+import 'managers/app_manager.dart';
 
 enum _Element {
   background,
@@ -30,9 +38,9 @@ final _darkTheme = {
 ///
 /// You can do better than this!
 class DigitalClock extends StatefulWidget {
-  const DigitalClock(this.model);
-
   final ClockModel model;
+
+  const DigitalClock(this.model);
 
   @override
   _DigitalClockState createState() => _DigitalClockState();
@@ -41,13 +49,26 @@ class DigitalClock extends StatefulWidget {
 class _DigitalClockState extends State<DigitalClock> {
   DateTime _dateTime = DateTime.now();
   Timer _timer;
+  LoadingStatus _status = LoadingStatus.loading;
 
   @override
   void initState() {
-    super.initState();
+//    sl
+//        .get<AppManager>()
+//        .init()
+//        .then((value) {
+//          print("main.initState OK");
+//          this.setState(() {
+//            _status = LoadingStatus.success;
+//          });
+//        })
+//        .catchError((error) => print('main.initState ERROR $error'))
+//        .whenComplete(() => print("main.initState COMPLETE"));
+
     widget.model.addListener(_updateModel);
     _updateTime();
     _updateModel();
+    super.initState();
   }
 
   @override
